@@ -1,10 +1,27 @@
 const path = require('path');
+// 自动生成index.html
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: {
+    app: './src/index.js',
+    print: './src/print.js'
+  },
+  devtool: 'inline-source-map',//定位错误的具体位置
+  devServer: {
+    contentBase: './dist'
+  },
+  plugins: [
+    new CleanWebpackPlugin(['dist']),
+    new HtmlWebpackPlugin({
+        title: 'Output Management'
+    })
+  ],
   output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/'
   },
   module: {
     rules: [
